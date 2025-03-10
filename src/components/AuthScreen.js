@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { encode } from 'qss';
 
-const googleClientId = '502172359025.apps.googleusercontent.com';
+const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '738969186538-om0te3t2es8oduelesfnc1vvo6oilqgl.apps.googleusercontent.com';
 const googleScope =
   'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events.readonly';
 
