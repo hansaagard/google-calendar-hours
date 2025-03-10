@@ -43,6 +43,10 @@ const sortByStart = ({ start: startA }, { start: startB }) => {
   return 0;
 };
 
+const sortAlphabetically = ({ summary: summaryA }, { summary: summaryB }) => {
+  return summaryA.localeCompare(summaryB);
+};
+
 const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
@@ -84,14 +88,14 @@ const Events = () => {
   let downloadBlob;
   let filename;
 
-  if (sortBy === SORT_BY.AMOUNT) {
+  if (sortBy === SORT_BY.AMOUNT || sortBy === SORT_BY.ALPHABETICAL) {
     const eventsObject = eventsToRender.reduce((acc, { summary, hours }) => {
       acc[summary] = acc[summary] ? (acc[summary] += hours) : hours;
       return acc;
     }, {});
     eventsToRender = Object.entries(eventsObject)
       .map(([key, value]) => ({ summary: key, hours: value, id: key }))
-      .sort(sortByHours);
+      .sort(sortBy === SORT_BY.AMOUNT ? sortByHours : sortAlphabetically);
   } else {
     const lines = eventsToRender.map(
       ({ start, end, summary, hours }) =>
@@ -198,6 +202,20 @@ const Events = () => {
             htmlFor="amount"
           >
             Amount
+          </label>
+          <input
+            className="btn-check"
+            type="radio"
+            value="alphabetical"
+            id="alphabetical"
+            checked={sortBy === SORT_BY.ALPHABETICAL}
+            onChange={({ target }) => setSortBy(target.value)}
+          />
+          <label
+            className={cx('btn', 'btn-outline-secondary')}
+            htmlFor="alphabetical"
+          >
+            A-Z
           </label>
         </div>
         {downloadBlob && (

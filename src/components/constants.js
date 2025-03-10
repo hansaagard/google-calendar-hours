@@ -10,6 +10,7 @@ export const RANGE_TYPE = {
 export const SORT_BY = {
   DATE: 'date',
   AMOUNT: 'amount',
+  ALPHABETICAL: 'alphabetical',
 };
 
 export const WEEK_START = {
